@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/kuzprodev/gulp2023_july/issues"
   },
-  "homepage": "https://github.com/kuzprodev/gulp2023_july#readme"
+  "homepage": "https://github.com/kuzprodev/gulp2023_july#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
 }
