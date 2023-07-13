@@ -1,4 +1,4 @@
 'use strict'
 
-const vox = document.querySelector('.test');
-const box = document.querySelector('.test');
+const vox = document.querySelector('.vox');
+const box = document.querySelector('.box');
