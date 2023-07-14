@@ -1,9 +1,10 @@
-const { src, dest, watch, parallel } = require('gulp');
+const { src, dest, watch, parallel, series } = require('gulp');
 
 
 const scss = require('gulp-sass')(require('sass'));
 const concat = require('gulp-concat');
-const autoprefixer = require('gulp-autoprefixer')
+const autoprefixer = require('gulp-autoprefixer');
+const clean = require('gulp-clean');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
 
@@ -28,7 +29,7 @@ function styles(){
 
 function scripts(){
     return src([
-        'node_modules/swiper/swiper-bundle.js',
+        'node_modules/swiper/swiper-bundle.js', //приклад підключення
         'app/js/**/*.js',
     '!app/js/*.min.js'])
     .pipe(sourcemaps.init())
@@ -54,10 +55,26 @@ function browsersync (){
     });
 }
 
+function cleanDist(){
+    return src('dist')
+    .pipe(clean())
+}
+
+function building(){
+    return src([
+        'app/css/style.min.css',
+        'app/js/main.min.js',
+        'app/**/*.html'
+    ], {base : 'app'})
+    .pipe(dest('dist'))
+}
+
+
 exports.styles = styles;
 exports.scripts = scripts;
 exports.watching = watching;
 exports.browsersync = browsersync;
 
 
+exports.build = series(cleanDist, building)
 exports.default = parallel(styles, scripts,  browsersync, watching)
