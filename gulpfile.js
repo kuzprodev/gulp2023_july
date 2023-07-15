@@ -10,9 +10,27 @@ const uglify = require('gulp-uglify-es').default;
 
 const browserSync = require('browser-sync').create();
 
+const avif = require('gulp-avif');
+const webp = require('gulp-webp');
+const imagemin = require('gulp-imagemin');
+const newer = require('gulp-newer');
 
 
+function images() {
+    return src(['app/images/src/*', '!app/images/src/*.svg'])
+    .pipe(newer('app/images/dist'))
+    .pipe(avif({ quality: 50 }))
 
+    .pipe(src('app/images/src/*'))
+    .pipe(newer('app/images/dist'))
+    .pipe(webp())
+
+    .pipe(src('app/images/src/*'))
+    .pipe(newer('app/images/dist'))
+    .pipe(imagemin())
+
+    .pipe(dest('app/images/dist'))
+}
 
 function styles(){
     return src('app/scss/**/*.scss')
@@ -29,7 +47,7 @@ function styles(){
 
 function scripts(){
     return src([
-        'node_modules/swiper/swiper-bundle.js', //приклад підключення
+        // 'node_modules/swiper/swiper-bundle.js', //приклад підключення
         'app/js/**/*.js',
     '!app/js/*.min.js'])
     .pipe(sourcemaps.init())
@@ -48,6 +66,7 @@ function watching() {
         port: 8008,
     })
     watch(['app/scss/**/*.scss'], styles)
+    watch(['app/images/src/**/*'], images)
     watch(['app/js/**/*.js','!app/js/*.min.js'], scripts)
     watch(['app/**/*.html']).on('change', browserSync.reload)
 }
@@ -62,6 +81,7 @@ function cleanDist(){
 function building(){
     return src([
         'app/css/style.min.css',
+        'app/images/dist/*',
         'app/js/main.min.js',
         'app/**/*.html'
     ], {base : 'app'})
@@ -71,9 +91,10 @@ function building(){
 
 exports.styles = styles;
 exports.scripts = scripts;
+exports.images = images;
 exports.watching = watching;
 
 
 
 exports.build = series(cleanDist, building)
-exports.default = parallel(styles, scripts, watching)
+exports.default = parallel(styles, images, scripts, watching)
