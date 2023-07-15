@@ -40,20 +40,19 @@ function scripts(){
     .pipe(browserSync.stream())
 }
 
-function watching(){
-    watch(['app/scss/**/*.scss'], styles)
-    watch(['app/js/**/*.js','!app/js/*.min.js'], scripts)
-    watch(['app/**/*.html']).on('change', browserSync.reload)
-}
-
-function browsersync (){
+function watching() {
     browserSync.init({
         server: {
             baseDir: "app/"
         },
         port: 8008,
-    });
+    })
+    watch(['app/scss/**/*.scss'], styles)
+    watch(['app/js/**/*.js','!app/js/*.min.js'], scripts)
+    watch(['app/**/*.html']).on('change', browserSync.reload)
 }
+
+
 
 function cleanDist(){
     return src('dist')
@@ -73,8 +72,8 @@ function building(){
 exports.styles = styles;
 exports.scripts = scripts;
 exports.watching = watching;
-exports.browsersync = browsersync;
+
 
 
 exports.build = series(cleanDist, building)
-exports.default = parallel(styles, scripts,  browsersync, watching)
+exports.default = parallel(styles, scripts, watching)
