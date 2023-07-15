@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.scss"],"names":[],"mappings":"AAAA,MACI,SAAA,CACA,aAAA,QAAA,CAAA,aAAA,CAEJ,KACI,gBAAA,CAAA,YAAA","file":"../style.min.css","sourcesContent":[".main{\r\n    padding:0;\r\n    .inner{margin:0;display:block}\r\n}\r\n.box{\r\n    display: grid;}\r\n    // @import '../../node_modules/swiper/swiper-bundle'; //приклад підключення"]}
